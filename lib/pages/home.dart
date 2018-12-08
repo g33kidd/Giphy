@@ -26,17 +26,29 @@ class _HomePageState extends State<HomePage> {
   List<GIF> gifs;
   bool loading = true;
 
+  // final _searchTextController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    // _searchTextController.addListener(_handleSearchChange);
     _fetch();
   }
+
+  @override
+  void dispose() {
+    // _searchTextController.dispose();
+    super.dispose();
+  }
+
+  // _handleSearchChange() {}
 
   _fetch() {
     setState(() {
       loading = true;
       gifs = null;
     });
+
     fetchTrending().then((list) {
       setState(() {
         gifs = list;
@@ -61,7 +73,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () => _fetch(),
-          )
+          ),
         ],
       ),
       body: Container(
