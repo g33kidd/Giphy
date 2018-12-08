@@ -42,10 +42,20 @@ class GiphyAPI {
       "tag=$tag&rating=$rating",
     );
 
-    final gif = json['data'][0];
-
-    return GIF.fromJson(gif);
+    return GIF.fromJson(json['data']);
   }
 
-  Future<GIF> translate() async {}
+  Future<GIF> translate(string, {weirdness: 0}) async {
+    final json = await makeRequest(
+      _translate,
+      "s=$string&weirdness=$weirdness",
+    );
+
+    return GIF.fromJson(json['data']);
+  }
+
+  // TODO: SEARCH
+  // Future<List<GIF>> search(query) async {
+  //   final json = await makeRequest();
+  // }
 }

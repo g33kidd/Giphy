@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:giphy/models/gif.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:giphy/giphy.dart';
+import 'package:giphy/ui/components/trending.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -77,7 +76,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: _buildTrendingList(context),
+                child: TrendingListView(),
               ),
             ),
           ],
