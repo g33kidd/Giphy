@@ -2,46 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:giphy/models/gif.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:giphy/giphy.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-Future<List<GIF>> fetchTrending() async {
-  final response = await http.get(
-      "http://api.giphy.com/v1/gifs/trending?api_key=Ci380cV9Rh1etAsqYZfWQvxqYHZ91Yc6&limit=15");
-
-  if (response.statusCode == 200) {
-    final data = json.decode(response.body);
-    final finalList =
-        (data['data'] as List).map((item) => GIF.fromJson(item)).toList();
-    return finalList;
-  } else {
-    throw Exception('Failed to load trending gifs.');
-  }
-}
-
 class _HomePageState extends State<HomePage> {
   List<GIF> gifs;
   bool loading = true;
-
-  // final _searchTextController = TextEditingController();
+  final giphyApi = GiphyAPI(apiKey: "Ci380cV9Rh1etAsqYZfWQvxqYHZ91Yc6");
 
   @override
   void initState() {
     super.initState();
-    // _searchTextController.addListener(_handleSearchChange);
     _fetch();
   }
 
   @override
   void dispose() {
-    // _searchTextController.dispose();
     super.dispose();
   }
-
-  // _handleSearchChange() {}
 
   _fetch() {
     setState(() {
@@ -49,11 +31,17 @@ class _HomePageState extends State<HomePage> {
       gifs = null;
     });
 
-    fetchTrending().then((list) {
+    giphyApi.trending().then((list) {
       setState(() {
         gifs = list;
         loading = false;
       });
+    });
+  }
+
+  _loadRandom() {
+    giphyApi.random(tag: 'dick', rating: 'r').then((gif) {
+      print(gif);
     });
   }
 
